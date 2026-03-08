@@ -1,4 +1,4 @@
-#include "doorbell_wifi.h"
+#include "xiaozhi_wifi.h"
 bool provisioned = false;
 
 
@@ -236,7 +236,6 @@ void xiaozhi_wifi_init(void)
       ESP_ERROR_CHECK(nvs_flash_erase());
       ret = nvs_flash_init();
     }
-    // xiaozhi_wifi_reset_provisioning();
     xiaozhi_wifi_config();
 }
 void xiaozhi_wifi_reset_provisioning(void)
