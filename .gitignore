@@ -1,0 +1,56 @@
+# ========================= ESP32 编译产物 =========================
+# ESP-IDF 编译生成的构建目录（最核心，必须忽略）
+build/
+# 临时构建文件
+cmake-build-*/
+# sdkconfig 相关（自动生成的配置，建议只保留 sdkconfig.defaults 手动配置）
+sdkconfig
+sdkconfig.old
+# 编译日志
+*.log
+# 二进制文件/镜像
+*.bin
+*.elf
+*.map
+*.hex
+*.uf2
+# 临时文件
+*.tmp
+*.bak
+*.swp
+.DS_Store  # Mac 系统文件
+Thumbs.db  # Windows 系统文件
+
+# ========================= VSCode 配置 =========================
+# VSCode 工作区配置（包含插件、调试、终端等个性化设置）
+.vscode/
+# 排除 .vscode/extensions.json（可选）：如果需要共享插件推荐，可注释这行
+!.vscode/extensions.json
+
+# ========================= Python 相关（ESP32 开发常用） =========================
+__pycache__/
+*.py[cod]
+*$py.class
+# 虚拟环境
+venv/
+env/
+.venv/
+.env/
+# pip 缓存
+pip-wheel-metadata/
+# 测试/覆盖率报告
+htmlcov/
+.coverage
+.pytest_cache/
+
+# ========================= 其他通用忽略项 =========================
+# 本地配置文件（自定义的本地参数，不上传）
+local_config.h
+local_config.py
+# 压缩包
+*.zip
+*.rar
+*.7z
+# 日志文件
+logs/
+*.log
