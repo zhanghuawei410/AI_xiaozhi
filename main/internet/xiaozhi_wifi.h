@@ -15,6 +15,7 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 #include "qrcode.h"
+#include "xiaozhi_display.h"
 
 extern bool provisioned;
 

@@ -15,6 +15,36 @@ static int s_retry_num = 0;
 #define QRCODE_BASE_URL         "https://espressif.github.io/esp-jumpstart/qrcode.html"
 #define CONFIG_EXAMPLE_PROV_MGR_MAX_RETRY_CNT 5
 
+
+static void wifi_prov_show_qr(const char *name, const char *username, const char *pop, const char *transport)
+{
+    if (!name || !transport)
+    {
+        ESP_LOGW(TAG, "Cannot generate QR code payload. Data missing.");
+        return;
+    }
+    char payload[150] = {0};
+    if (pop)
+    {
+        snprintf(payload, sizeof(payload), "{\"ver\":\"%s\",\"name\":\"%s\""
+                                           ",\"pop\":\"%s\",\"transport\":\"%s\"}",
+                 PROV_QR_VERSION, name, pop, transport);
+    }
+    else
+    {
+        snprintf(payload, sizeof(payload), "{\"ver\":\"%s\",\"name\":\"%s\""
+                                           ",\"transport\":\"%s\"}",
+                 PROV_QR_VERSION, name, transport);
+    }
+    ESP_LOGI(TAG, "Scan this QR code from the provisioning application for Provisioning.");
+    // esp_qrcode_config_t cfg = ESP_QRCODE_CONFIG_DEFAULT();
+    // esp_qrcode_generate(&cfg, payload);
+    xiaozhi_display_show_qrcode(payload, strlen(payload));
+    ESP_LOGI(TAG, "If QR code is not visible, copy paste the below URL in a browser.\n%s?data=%s", QRCODE_BASE_URL, payload);
+}
+
+
+
 static void event_handler(void* arg, esp_event_base_t event_base,
                                 int32_t event_id, void* event_data)
 {
@@ -75,6 +105,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
+        xiaozhi_display_delete_qrcode();
         /* Signal main application to continue execution */
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_EVENT);
     }else if (event_base == PROTOCOMM_TRANSPORT_BLE_EVENT)
@@ -200,9 +231,10 @@ void xiaozhi_wifi_config(void)
 
         /* Start provisioning service */
         ESP_ERROR_CHECK(wifi_prov_mgr_start_provisioning(security, (const void *) sec_params, service_name, service_key));
-
+        // 显示配网二维码
+        wifi_prov_show_qr(service_name, username, pop, "ble");
         // 打印配网二维码
-        wifi_prov_print_qr(service_name, username, pop, PROV_TRANSPORT_BLE);
+        // wifi_prov_print_qr(service_name, username, pop, PROV_TRANSPORT_BLE);
         } else { // 下面是之前已经配过网了，可以直接进行连接
         ESP_LOGI(TAG, "Already provisioned, starting Wi-Fi STA");
 

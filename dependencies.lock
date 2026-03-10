@@ -60,6 +60,6 @@ direct_dependencies:
 - espressif/esp_lvgl_port
 - espressif/qrcode
 - idf
-manifest_hash: c00bed949d24e7d277f1a27423e3f6c57af05fb40ee32d0e2ba8efb54512df9d
+manifest_hash: c325465f586e04bef2faf0166d0deed9e9f780984367c7eda364b9cbbefe8971
 target: esp32s3
 version: 2.0.0
